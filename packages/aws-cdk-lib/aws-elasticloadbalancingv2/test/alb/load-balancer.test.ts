@@ -2,6 +2,7 @@ import { Construct } from 'constructs';
 import { Match, Template } from '../../../assertions';
 import { Metric } from '../../../aws-cloudwatch';
 import * as ec2 from '../../../aws-ec2';
+import { Key } from '../../../aws-kms';
 import * as s3 from '../../../aws-s3';
 import * as cdk from '../../../core';
 import * as elbv2 from '../../lib';
@@ -246,11 +247,17 @@ describe('tests', () => {
       }
     }
 
-    function loggingSetup(): { stack: cdk.Stack; bucket: s3.Bucket; lb: elbv2.ApplicationLoadBalancer } {
+    function loggingSetup(withEncryption: boolean = false): { stack: cdk.Stack; bucket: s3.Bucket; lb: elbv2.ApplicationLoadBalancer } {
       const app = new cdk.App();
       const stack = new cdk.Stack(app, undefined, { env: { region: 'us-east-1' } });
       const vpc = new ec2.Vpc(stack, 'Stack');
-      const bucket = new s3.Bucket(stack, 'AccessLoggingBucket');
+      //const bucket = new s3.Bucket(stack, 'AccessLoggingBucket');
+      let bucketprops = {};
+      if (withEncryption) {
+        const kmsKey = new Key(stack, 'TestKMSKey');
+        bucketprops = { ...bucketprops, encryption: s3.BucketEncryption.KMS, encryptionKey: kmsKey };
+      }
+      const bucket = new s3.Bucket(stack, 'AccessLoggingBucket', { ...bucketprops });
       const lb = new elbv2.ApplicationLoadBalancer(stack, 'LB', { vpc });
       return { stack, bucket, lb };
     }
@@ -293,6 +300,18 @@ describe('tests', () => {
       Template.fromStack(stack).hasResource('AWS::ElasticLoadBalancingV2::LoadBalancer', {
         DependsOn: ['AccessLoggingBucketPolicy700D7CC6'],
       });
+    });
+
+    test('bucket with KMS throws validation error', () => {
+      //GIVEN
+      const { stack, bucket, lb } = loggingSetup(true);
+
+      // WHEN
+      const logAccessLogFunctionTest = () => lb.logAccessLogs(bucket);
+
+      // THEN
+      expect(logAccessLogFunctionTest).toThrow('Encryption key detected. Bucket encryption using KMS keys is unsupported');
+
     });
 
     test('logging bucket permissions', () => {
