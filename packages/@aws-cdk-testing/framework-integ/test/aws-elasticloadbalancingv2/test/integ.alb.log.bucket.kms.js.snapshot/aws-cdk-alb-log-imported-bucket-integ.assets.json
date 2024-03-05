@@ -1,0 +1,20 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "59ed5a5e145c27fe4f98fab44404842340bb24a5785c17839e33aa1a5cfd21b2": {
+      "source": {
+        "path": "aws-cdk-alb-log-imported-bucket-integ.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-west-2": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-west-2",
+          "objectKey": "59ed5a5e145c27fe4f98fab44404842340bb24a5785c17839e33aa1a5cfd21b2.json",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-west-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
