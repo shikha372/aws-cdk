@@ -3,7 +3,7 @@
   "Repo02AC86CF": {
    "Type": "AWS::ECR::Repository",
    "Properties": {
-    "RepositoryName": "delete-even-if-containing-images",
+    "RepositoryName": "delete-even-if-containing-images-test",
     "Tags": [
      {
       "Key": "aws-cdk:auto-delete-images",

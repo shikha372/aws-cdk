@@ -18,7 +18,7 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ECR::Repository",
                   "aws:cdk:cloudformation:props": {
-                    "repositoryName": "delete-even-if-containing-images",
+                    "repositoryName": "delete-even-if-containing-images-test",
                     "tags": [
                       {
                         "key": "aws-cdk:auto-delete-images",

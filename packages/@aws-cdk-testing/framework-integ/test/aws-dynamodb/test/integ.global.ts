@@ -18,6 +18,7 @@ class TestStack extends Stack {
       replicationRegions: [
         'eu-west-2',
         'eu-central-1',
+        'us-west-1',
       ],
     });
 

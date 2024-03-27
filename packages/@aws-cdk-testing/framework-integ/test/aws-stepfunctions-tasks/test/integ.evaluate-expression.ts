@@ -22,6 +22,10 @@ class TestStack extends Stack {
       resultPath: '$.c',
     });
 
+    const subtract = new tasks.EvaluateExpression(this, 'Subtract', {
+      expression: '$.a - $.b',
+      resultPath: '$.e',
+    });
     const multiply = new tasks.EvaluateExpression(this, 'Multiply', {
       expression: '$.c * 2',
       resultPath: '$.d',
@@ -37,6 +41,7 @@ class TestStack extends Stack {
     const statemachine = new sfn.StateMachine(this, 'StateMachine', {
       definition: sum
         .next(multiply)
+        .next(subtract)
         .next(
           new sfn.Wait(this, 'Wait', {
             time: sfn.WaitTime.secondsPath('$.d'),

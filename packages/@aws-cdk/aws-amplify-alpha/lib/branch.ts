@@ -246,7 +246,7 @@ class AmplifyAssetDeploymentProvider extends NestedStack {
             ],
           }),
         ],
-        runtime: Runtime.NODEJS_18_X,
+        runtime: Runtime.NODEJS_20_X,
       },
     );
 

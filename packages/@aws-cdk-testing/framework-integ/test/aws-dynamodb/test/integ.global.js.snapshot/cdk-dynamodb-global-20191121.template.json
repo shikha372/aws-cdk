@@ -102,6 +102,21 @@
          "Fn::Join": [
           "",
           [
+           "arn:aws:dynamodb:us-west-1:",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":table/",
+           {
+            "Ref": "TableCD117FA1"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
            {
             "Fn::GetAtt": [
              "TableCD117FA1",
@@ -226,6 +241,28 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
+  "TableReplicauswest1D59ECE15": {
+   "Type": "Custom::DynamoDBReplica",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "awscdkawsdynamodbReplicaProviderNestedStackawscdkawsdynamodbReplicaProviderNestedStackResource18E3F12D",
+      "Outputs.cdkdynamodbglobal20191121awscdkawsdynamodbReplicaProviderframeworkonEventCFDD0BA0Arn"
+     ]
+    },
+    "TableName": {
+     "Ref": "TableCD117FA1"
+    },
+    "Region": "us-west-1"
+   },
+   "DependsOn": [
+    "TableReplicaeucentral100A6A6E0",
+    "TableSourceTableAttachedManagedPolicycdkdynamodbglobal20191121awscdkawsdynamodbReplicaProviderIsCompleteHandlerServiceRole3971612857304880",
+    "TableSourceTableAttachedManagedPolicycdkdynamodbglobal20191121awscdkawsdynamodbReplicaProviderOnEventHandlerServiceRole6F43DF4A23250B4C"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
   "awscdkawsdynamodbReplicaProviderNestedStackawscdkawsdynamodbReplicaProviderNestedStackResource18E3F12D": {
    "Type": "AWS::CloudFormation::Stack",
    "Properties": {
@@ -246,7 +283,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
        },
-       "/4148c9473bcbd8c19e338a215d442b27cc755081d5d4980c0648dfd92306e0e5.json"
+       "/19ac7e1b945ec8390271968fd685cfa81bd0e3845184b3cf51e93ae9fc96a5f7.json"
       ]
      ]
     }

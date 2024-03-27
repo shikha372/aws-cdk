@@ -74,7 +74,6 @@ test('security groups are applied to all framework functions', () => {
       ],
     },
   });
-
 });
 
 test('vpc is applied to all framework functions', () => {

@@ -21,7 +21,7 @@ describe('index', () =>{
     process.env.AWS_EXECUTION_ENV = 'AWS_Lambda_nodejs18.x';
     expect(require('../../../lib/custom-resources/aws-custom-resource-handler').handler({}, {})).toEqual(3);
   });
-  it('nodejs18.x newer runtime should use AWS SDK v3', async ()=> {
+  it('nodejs20.x newer runtime should use AWS SDK v3', async ()=> {
     process.env.AWS_EXECUTION_ENV = 'AWS_Lambda_nodejs20.x';
     expect(require('../../../lib/custom-resources/aws-custom-resource-handler').handler({}, {})).toEqual(3);
   });

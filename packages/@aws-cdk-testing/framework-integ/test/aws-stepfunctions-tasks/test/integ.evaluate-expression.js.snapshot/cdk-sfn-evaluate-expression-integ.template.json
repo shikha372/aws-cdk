@@ -199,14 +199,21 @@
          "Arn"
         ]
        },
-       "\",\"Parameters\":{\"expression\":\"$.a + $.b\",\"expressionAttributeValues\":{\"$.a.$\":\"$.a\",\"$.b.$\":\"$.b\"}}},\"Multiply\":{\"Next\":\"Wait\",\"Type\":\"Task\",\"ResultPath\":\"$.d\",\"Resource\":\"",
+       "\",\"Parameters\":{\"expression\":\"$.a + $.b\",\"expressionAttributeValues\":{\"$.a.$\":\"$.a\",\"$.b.$\":\"$.b\"}}},\"Multiply\":{\"Next\":\"Subtract\",\"Type\":\"Task\",\"ResultPath\":\"$.d\",\"Resource\":\"",
        {
         "Fn::GetAtt": [
          "Eval078d40d3fb4e4d5394a79c46fc11fe029D0ED2B4",
          "Arn"
         ]
        },
-       "\",\"Parameters\":{\"expression\":\"$.c * 2\",\"expressionAttributeValues\":{\"$.c.$\":\"$.c\"}}},\"Wait\":{\"Type\":\"Wait\",\"SecondsPath\":\"$.d\",\"Next\":\"Now\"},\"Now\":{\"End\":true,\"Type\":\"Task\",\"ResultPath\":\"$.now\",\"Resource\":\"",
+       "\",\"Parameters\":{\"expression\":\"$.c * 2\",\"expressionAttributeValues\":{\"$.c.$\":\"$.c\"}}},\"Subtract\":{\"Next\":\"Wait\",\"Type\":\"Task\",\"ResultPath\":\"$.e\",\"Resource\":\"",
+       {
+        "Fn::GetAtt": [
+         "Eval41256dc5445742738ed917bc818694e54EB1134F",
+         "Arn"
+        ]
+       },
+       "\",\"Parameters\":{\"expression\":\"$.a - $.b\",\"expressionAttributeValues\":{\"$.a.$\":\"$.a\",\"$.b.$\":\"$.b\"}}},\"Wait\":{\"Type\":\"Wait\",\"SecondsPath\":\"$.d\",\"Next\":\"Now\"},\"Now\":{\"End\":true,\"Type\":\"Task\",\"ResultPath\":\"$.now\",\"Resource\":\"",
        {
         "Fn::GetAtt": [
          "Eval078d40d3fb4e4d5394a79c46fc11fe029D0ED2B4",

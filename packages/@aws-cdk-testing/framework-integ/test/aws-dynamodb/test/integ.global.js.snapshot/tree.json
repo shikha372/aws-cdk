@@ -147,6 +147,21 @@
                                       "Fn::Join": [
                                         "",
                                         [
+                                          "arn:aws:dynamodb:us-west-1:",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Ref": "TableCD117FA1"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
                                           {
                                             "Fn::GetAtt": [
                                               "TableCD117FA1",
@@ -316,6 +331,24 @@
                   "fqn": "aws-cdk-lib.CustomResource",
                   "version": "0.0.0"
                 }
+              },
+              "Replicaus-west-1": {
+                "id": "Replicaus-west-1",
+                "path": "cdk-dynamodb-global-20191121/Table/Replicaus-west-1",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "cdk-dynamodb-global-20191121/Table/Replicaus-west-1/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "0.0.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "0.0.0"
+                }
               }
             },
             "constructInfo": {
@@ -450,6 +483,25 @@
                                                 "Ref": "AWS::Partition"
                                               },
                                               ":dynamodb:eu-west-2:",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              ":table/",
+                                              {
+                                                "Ref": "referencetocdkdynamodbglobal20191121TableB640876BRef"
+                                              }
+                                            ]
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":dynamodb:us-west-1:",
                                               {
                                                 "Ref": "AWS::AccountId"
                                               },
@@ -888,7 +940,7 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": "nodejs20.x",
                             "timeout": 900
                           }
                         },
@@ -1106,7 +1158,7 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": "nodejs20.x",
                             "timeout": 900
                           }
                         },
@@ -1324,7 +1376,7 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": "nodejs20.x",
                             "timeout": 900
                           }
                         },
@@ -1551,7 +1603,7 @@
                           {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
                           },
-                          "/4148c9473bcbd8c19e338a215d442b27cc755081d5d4980c0648dfd92306e0e5.json"
+                          "/19ac7e1b945ec8390271968fd685cfa81bd0e3845184b3cf51e93ae9fc96a5f7.json"
                         ]
                       ]
                     }
