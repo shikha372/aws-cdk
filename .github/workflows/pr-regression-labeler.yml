@@ -23,16 +23,6 @@ jobs:
           const result = match ? match[1].toLowerCase() === 'x' : false;
           console.log(`Is regression: ${result}`);
           core.setOutput('is_regression', result);
-    - name: Label regression issues
-      if: ${{ steps.check_regression.outputs.is_regression == 'true' }}
-      run: gh issue edit ${{ github.event.issue.number }} --add-label "potential regression" -R ${{ github.repository }}
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Remove regression label
-      if: ${{ steps.check_regression.outputs.is_regression == 'false' }}
-      run: gh issue edit ${{ github.event.issue.number }} --remove-label "potential regression" -R ${{ github.repository }}
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Manage regression label
       run: |
         if [ "${{ steps.check_regression.outputs.is_regression }}" == "true" ]; then
