@@ -8,10 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: read
-    outputs:
-        is_regression: ${{ steps.check_regression.outputs.is_regression }}    
     steps:
     - name: Show template body
+      id: check_regression
       uses: actions/github-script@v7
       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
