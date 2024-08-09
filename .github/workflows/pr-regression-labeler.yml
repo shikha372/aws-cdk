@@ -18,7 +18,7 @@ jobs:
         TEMPLATE_BODY: ${{ github.event.issue.body }}
       with:
         script: |
-          const checkboxPattern = /- \[([X ])\] Select this option if this issue appears to be a regression\./;
+          const checkboxPattern = /- \[(x|X)\] Select this option if this issue appears to be a regression\./i;
           const template = `${process.env.TEMPLATE_BODY}`
           const match = checkboxPattern.exec(template);
           const result = match ? match[1] === 'X' : false;
