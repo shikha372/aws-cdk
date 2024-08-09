@@ -17,6 +17,7 @@ jobs:
       with:
         script: |
           const checkboxPattern = /- \[([X ])\] Select this option if this issue appears to be a regression\./;
-          const match = checkboxPattern.exec(templateText);
+          const template = `${process.env.TEMPLATE_BODY}`
+          const match = checkboxPattern.exec(template);
           const isRegressionChecked = match ? match[1] === 'X' : false;
           console.log(isRegressionChecked);
