@@ -1,0 +1,22 @@
+# Apply various labels on PRs
+name: pr-regression-labels
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  add-regression-label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: read
+    steps:
+    - name: Show template body
+      uses: actions/github-script@v7
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TEMPLATE_BODY: ${{ github.event.issue.body }}
+      with:
+        script: |
+          const checkboxPattern = /- \[([X ])\] Select this option if this issue appears to be a regression\./;
+          const match = checkboxPattern.exec(templateText);
+          const isRegressionChecked = match ? match[1] === 'X' : false;
+          console.log(isRegressionChecked);
