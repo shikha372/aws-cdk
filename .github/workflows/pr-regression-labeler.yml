@@ -25,7 +25,7 @@ jobs:
           core.setOutput('is_regression', result);
     - name: Label regression issues
       if: ${{ steps.check_regression.outputs.is_regression == 'true' }}
-      run: gh pr edit ${{ github.event.issue.number }} --add-label "potential_regression" -R ${{ github.repository }}
+      run: gh issue edit ${{ github.event.issue.number }} --add-label "potential_regression" -R ${{ github.repository }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
