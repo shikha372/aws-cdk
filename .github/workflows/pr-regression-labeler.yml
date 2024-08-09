@@ -22,6 +22,7 @@ jobs:
           const template = `${process.env.TEMPLATE_BODY}`
           const match = checkboxPattern.exec(template);
           const result = match ? match[1] === 'X' : false;
+          console.log(`Is regression: ${result}`);
           return result;
         result-encoding: string   
     - name: Label regression issues
