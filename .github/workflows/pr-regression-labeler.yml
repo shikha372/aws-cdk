@@ -24,9 +24,8 @@ jobs:
           const result = match ? match[1].toLowerCase() === 'x' : false;
           console.log(`Is regression: ${result}`);
           core.setOutput('is_regression', result);
-        result-encoding: string
     - name: Label regression issues
-      if: ${{ steps.check_regression.outputs.result == 'true' }}
+      if: ${{ steps.check_regression.outputs.result == true }}
       run: |
         # Add a label to the issue if it's a regression
         echo "Adding 'regression' label to the issue..."
