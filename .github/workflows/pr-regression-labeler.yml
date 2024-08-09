@@ -24,7 +24,7 @@ jobs:
           console.log(`Is regression: ${result}`);
           core.setOutput('is_regression', result);
     - name: Label regression issues
-      if: ${{ steps.check_regression.outputs.result == 'true' }}
+      if: ${{ steps.check_regression.outputs.is_regression == 'true' }}
       run: |
         # Add a label to the issue if it's a regression
         echo "Adding 'regression' label to the issue..."
