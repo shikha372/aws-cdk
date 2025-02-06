@@ -1,0 +1,463 @@
+├[~] service aws-aps
+│ └ resources
+│    └[~]  resource AWS::APS::Scraper
+│       ├ properties
+│       │  └[+] RoleConfiguration: RoleConfiguration
+│       └ types
+│          └[+]  type RoleConfiguration
+│             ├      documentation: Role configuration
+│             │      name: RoleConfiguration
+│             └ properties
+│                ├ SourceRoleArn: string
+│                └ TargetRoleArn: string
+├[~] service aws-batch
+│ └ resources
+│    └[~]  resource AWS::Batch::JobDefinition
+│       └ types
+│          ├[~] type EksContainerVolumeMount
+│          │ └ properties
+│          │    └[+] SubPath: string
+│          ├[~] type EksMetadata
+│          │ └ properties
+│          │    ├[+] Annotations: Map<string, string>
+│          │    └[+] Namespace: string
+│          ├[+]  type EksPersistentVolumeClaim
+│          │  ├      documentation: A `persistentVolumeClaim` volume is used to mount a [PersistentVolume](https://docs.aws.amazon.com/https://kubernetes.io/docs/concepts/storage/persistent-volumes/) into a Pod. PersistentVolumeClaims are a way for users to "claim" durable storage without knowing the details of the particular cloud environment. See the information about [PersistentVolumes](https://docs.aws.amazon.com/https://kubernetes.io/docs/concepts/storage/persistent-volumes/) in the *Kubernetes documentation* .
+│          │  │      name: EksPersistentVolumeClaim
+│          │  └ properties
+│          │     ├ ReadOnly: boolean
+│          │     └ ClaimName: string (required)
+│          └[~] type EksVolume
+│            └ properties
+│               └[+] PersistentVolumeClaim: EksPersistentVolumeClaim
+├[~] service aws-bedrock
+│ └ resources
+│    └[~]  resource AWS::Bedrock::KnowledgeBase
+│       └ types
+│          └[~] type BedrockEmbeddingModelConfiguration
+│            └ properties
+│               └ EmbeddingDataType: (documentation changed)
+├[~] service aws-cloudformation
+│ └ resources
+│    ├[~]  resource AWS::CloudFormation::GuardHook
+│    │  └ properties
+│    │     └ TargetOperations: (documentation changed)
+│    └[~]  resource AWS::CloudFormation::LambdaHook
+│       └ properties
+│          └ TargetOperations: (documentation changed)
+├[~] service aws-cloudfront
+│ └ resources
+│    ├[~]  resource AWS::CloudFront::Distribution
+│    │  └ types
+│    │     ├[~] type Origin
+│    │     │ └ properties
+│    │     │    └[+] VpcOriginConfig: VpcOriginConfig
+│    │     ├[~] type ViewerCertificate
+│    │     │ └ properties
+│    │     │    └ SslSupportMethod: (documentation changed)
+│    │     └[+]  type VpcOriginConfig
+│    │        ├      name: VpcOriginConfig
+│    │        └ properties
+│    │           ├ OriginKeepaliveTimeout: integer (default=5)
+│    │           ├ OriginReadTimeout: integer (default=30)
+│    │           └ VpcOriginId: string (required)
+│    └[+]  resource AWS::CloudFront::VpcOrigin
+│       ├      name: VpcOrigin
+│       │      cloudFormationType: AWS::CloudFront::VpcOrigin
+│       │      documentation: An Amazon CloudFront VPC origin.
+│       │      tagInformation: {"tagPropertyName":"Tags","variant":"standard"}
+│       ├ properties
+│       │  ├ Tags: Array<tag>
+│       │  └ VpcOriginEndpointConfig: VpcOriginEndpointConfig (required)
+│       ├ attributes
+│       │  ├ Id: string
+│       │  ├ Arn: string
+│       │  ├ Status: string
+│       │  ├ CreatedTime: string
+│       │  └ LastModifiedTime: string
+│       └ types
+│          └ type VpcOriginEndpointConfig
+│            ├      documentation: An Amazon CloudFront VPC origin endpoint configuration.
+│            │      name: VpcOriginEndpointConfig
+│            └ properties
+│               ├ Arn: string (required)
+│               ├ HTTPPort: integer (default=80)
+│               ├ HTTPSPort: integer (default=443)
+│               ├ Name: string (required)
+│               ├ OriginProtocolPolicy: string (default="match-viewer")
+│               └ OriginSSLProtocols: Array<string>
+├[~] service aws-datasync
+│ └ resources
+│    └[~]  resource AWS::DataSync::LocationSMB
+│       └ properties
+│          ├ Domain: (documentation changed)
+│          └ ServerHostname: (documentation changed)
+├[~] service aws-datazone
+│ └ resources
+│    └[~]  resource AWS::DataZone::DataSource
+│       └ attributes
+│          └ ConnectionId: (documentation changed)
+├[~] service aws-ec2
+│ └ resources
+│    ├[~]  resource AWS::EC2::CapacityReservation
+│    │  └ properties
+│    │     ├ AvailabilityZoneId: (documentation changed)
+│    │     └ InstanceCount: (documentation changed)
+│    ├[~]  resource AWS::EC2::Instance
+│    │  └ properties
+│    │     └ DisableApiTermination: (documentation changed)
+│    ├[~]  resource AWS::EC2::LaunchTemplate
+│    │  └ types
+│    │     └[~] type LaunchTemplateData
+│    │       └ properties
+│    │          └ DisableApiTermination: (documentation changed)
+│    └[~]  resource AWS::EC2::VerifiedAccessEndpoint
+│       ├ properties
+│       │  ├ ApplicationDomain: - string (required, immutable)
+│       │  │                    + string (immutable)
+│       │  ├[+] CidrOptions: CidrOptions
+│       │  ├ DomainCertificateArn: - string (required, immutable)
+│       │  │                       + string (immutable)
+│       │  ├ EndpointDomainPrefix: - string (required, immutable)
+│       │  │                       + string (immutable)
+│       │  └[+] RdsOptions: RdsOptions
+│       └ types
+│          ├[+]  type CidrOptions
+│          │  ├      documentation: The options for cidr type endpoint.
+│          │  │      name: CidrOptions
+│          │  └ properties
+│          │     ├ Cidr: string (immutable)
+│          │     ├ PortRanges: Array<PortRange>
+│          │     ├ Protocol: string (immutable)
+│          │     └ SubnetIds: Array<string> (immutable)
+│          ├[~] type LoadBalancerOptions
+│          │ └ properties
+│          │    └[+] PortRanges: Array<PortRange>
+│          ├[~] type NetworkInterfaceOptions
+│          │ └ properties
+│          │    └[+] PortRanges: Array<PortRange>
+│          ├[+]  type PortRange
+│          │  ├      documentation: Describes a range of ports.
+│          │  │      name: PortRange
+│          │  └ properties
+│          │     ├ FromPort: integer
+│          │     └ ToPort: integer
+│          └[+]  type RdsOptions
+│             ├      documentation: The options for rds type endpoint.
+│             │      name: RdsOptions
+│             └ properties
+│                ├ Protocol: string (immutable)
+│                ├ Port: integer
+│                ├ RdsDbInstanceArn: string (immutable)
+│                ├ RdsDbClusterArn: string (immutable)
+│                ├ RdsDbProxyArn: string (immutable)
+│                ├ RdsEndpoint: string
+│                └ SubnetIds: Array<string>
+├[~] service aws-ecs
+│ └ resources
+│    ├[~]  resource AWS::ECS::Service
+│    │  ├      - documentation: The `AWS::ECS::Service` resource creates an Amazon Elastic Container Service (Amazon ECS) service that runs and maintains the requested number of tasks and associated load balancers.
+│    │  │      > The stack update fails if you change any properties that require replacement and at least one Amazon ECS Service Connect `ServiceConnectConfiguration` property the is configured. This is because AWS CloudFormation creates the replacement service first, but each `ServiceConnectService` must have a name that is unique in the namespace. > Starting April 15, 2023, AWS ; will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS , or Amazon EC2 . However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+│    │  │      + documentation: The `AWS::ECS::Service` resource creates an Amazon Elastic Container Service (Amazon ECS) service that runs and maintains the requested number of tasks and associated load balancers.
+│    │  │      > The stack update fails if you change any properties that require replacement and at least one Amazon ECS Service Connect `ServiceConnectConfiguration` property is configured. This is because AWS CloudFormation creates the replacement service first, but each `ServiceConnectService` must have a name that is unique in the namespace. > Starting April 15, 2023, AWS ; will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS , or Amazon EC2 . However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+│    │  └ properties
+│    │     ├ CapacityProviderStrategy: (documentation changed)
+│    │     ├ LoadBalancers: (documentation changed)
+│    │     ├ PlacementConstraints: (documentation changed)
+│    │     ├ PlacementStrategies: (documentation changed)
+│    │     ├ ServiceRegistries: (documentation changed)
+│    │     └ VolumeConfigurations: (documentation changed)
+│    └[~]  resource AWS::ECS::TaskDefinition
+│       └ types
+│          └[~] type KernelCapabilities
+│            └      - documentation: The Linux capabilities to add or remove from the default Docker configuration for a container defined in the task definition. For more detailed information about these Linux capabilities, see the [capabilities(7)](https://docs.aws.amazon.com/http://man7.org/linux/man-pages/man7/capabilities.7.html) Linux manual page.
+│                   + documentation: The Linux capabilities to add or remove from the default Docker configuration for a container defined in the task definition. For more detailed information about these Linux capabilities, see the [capabilities(7)](https://docs.aws.amazon.com/http://man7.org/linux/man-pages/man7/capabilities.7.html) Linux manual page.
+│                   The following describes how Docker processes the Linux capabilities specified in the `add` and `drop` request parameters. For information about the latest behavior, see [Docker Compose: order of cap_drop and cap_add](https://docs.aws.amazon.com/https://forums.docker.com/t/docker-compose-order-of-cap-drop-and-cap-add/97136/1) in the Docker Community Forum.
+│                   - When the container is a privleged container, the container capabilities are all of the default Docker capabilities. The capabilities specified in the `add` request parameter, and the `drop` request parameter are ignored.
+│                   - When the `add` request parameter is set to ALL, the container capabilities are all of the default Docker capabilities, excluding those specified in the `drop` request parameter.
+│                   - When the `drop` request parameter is set to ALL, the container capabilities are the capabilities specified in the `add` request parameter.
+│                   - When the `add` request parameter and the `drop` request parameter are both empty, the capabilities the container capabilities are all of the default Docker capabilities.
+│                   - The default is to first drop the capabilities specified in the `drop` request parameter, and then add the capabilities specified in the `add` request parameter.
+├[~] service aws-efs
+│ └ resources
+│    └[~]  resource AWS::EFS::FileSystem
+│       └ properties
+│          └ ProvisionedThroughputInMibps: (documentation changed)
+├[~] service aws-eks
+│ └ resources
+│    ├[~]  resource AWS::EKS::AccessEntry
+│    │  └ properties
+│    │     ├ PrincipalArn: (documentation changed)
+│    │     └ Type: (documentation changed)
+│    └[~]  resource AWS::EKS::Addon
+│       └ properties
+│          └ ResolveConflicts: (documentation changed)
+├[~] service aws-elasticloadbalancingv2
+│ └ resources
+│    └[~]  resource AWS::ElasticLoadBalancingV2::LoadBalancer
+│       └ properties
+│          └ EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: (documentation changed)
+├[~] service aws-fms
+│ └ resources
+│    └[~]  resource AWS::FMS::Policy
+│       └ properties
+│          └ ResourceTagLogicalOperator: (documentation changed)
+├[~] service aws-glue
+│ └ resources
+│    ├[~]  resource AWS::Glue::Connection
+│    │  └ types
+│    │     ├[+]  type AuthenticationConfigurationInput
+│    │     │  ├      documentation: A structure containing the authentication configuration in the CreateConnection request.
+│    │     │  │      name: AuthenticationConfigurationInput
+│    │     │  └ properties
+│    │     │     ├ SecretArn: string
+│    │     │     ├ KmsKeyArn: string
+│    │     │     ├ OAuth2Properties: OAuth2PropertiesInput
+│    │     │     ├ CustomAuthenticationCredentials: json
+│    │     │     ├ BasicAuthenticationCredentials: BasicAuthenticationCredentials
+│    │     │     └ AuthenticationType: string (required)
+│    │     ├[+]  type AuthorizationCodeProperties
+│    │     │  ├      documentation: The set of properties required for the the OAuth2 `AUTHORIZATION_CODE` grant type workflow.
+│    │     │  │      name: AuthorizationCodeProperties
+│    │     │  └ properties
+│    │     │     ├ AuthorizationCode: string
+│    │     │     └ RedirectUri: string
+│    │     ├[+]  type BasicAuthenticationCredentials
+│    │     │  ├      documentation: For supplying basic auth credentials when not providing a `SecretArn` value.
+│    │     │  │      name: BasicAuthenticationCredentials
+│    │     │  └ properties
+│    │     │     ├ Username: string
+│    │     │     └ Password: string
+│    │     ├[~] type ConnectionInput
+│    │     │ └ properties
+│    │     │    ├[+] AthenaProperties: json
+│    │     │    ├[+] AuthenticationConfiguration: AuthenticationConfigurationInput
+│    │     │    ├[+] PythonProperties: json
+│    │     │    ├[+] SparkProperties: json
+│    │     │    ├[+] ValidateCredentials: boolean
+│    │     │    └[+] ValidateForComputeEnvironments: Array<string>
+│    │     ├[+]  type OAuth2ClientApplication
+│    │     │  ├      documentation: The OAuth2 client app used for the connection.
+│    │     │  │      name: OAuth2ClientApplication
+│    │     │  └ properties
+│    │     │     ├ AWSManagedClientApplicationReference: string
+│    │     │     └ UserManagedClientApplicationClientId: string
+│    │     ├[+]  type OAuth2Credentials
+│    │     │  ├      documentation: The credentials used when the authentication type is OAuth2 authentication.
+│    │     │  │      name: OAuth2Credentials
+│    │     │  └ properties
+│    │     │     ├ UserManagedClientApplicationClientSecret: string
+│    │     │     ├ JwtToken: string
+│    │     │     ├ RefreshToken: string
+│    │     │     └ AccessToken: string
+│    │     └[+]  type OAuth2PropertiesInput
+│    │        ├      documentation: A structure containing properties for OAuth2 in the CreateConnection request.
+│    │        │      name: OAuth2PropertiesInput
+│    │        └ properties
+│    │           ├ AuthorizationCodeProperties: AuthorizationCodeProperties
+│    │           ├ OAuth2ClientApplication: OAuth2ClientApplication
+│    │           ├ TokenUrl: string
+│    │           ├ OAuth2Credentials: OAuth2Credentials
+│    │           ├ OAuth2GrantType: string
+│    │           └ TokenUrlParametersMap: json
+│    └[~]  resource AWS::Glue::TableOptimizer
+│       └ types
+│          ├[+]  type IcebergConfiguration
+│          │  ├      name: IcebergConfiguration
+│          │  └ properties
+│          │     ├ OrphanFileRetentionPeriodInDays: integer
+│          │     └ Location: string
+│          ├[+]  type OrphanFileDeletionConfiguration
+│          │  ├      name: OrphanFileDeletionConfiguration
+│          │  └ properties
+│          │     └ IcebergConfiguration: IcebergConfiguration
+│          ├[+]  type RetentionConfiguration
+│          │  ├      name: RetentionConfiguration
+│          │  └ properties
+│          │     └ IcebergConfiguration: IcebergConfiguration
+│          ├[~] type TableOptimizerConfiguration
+│          │ └ properties
+│          │    ├[+] OrphanFileDeletionConfiguration: OrphanFileDeletionConfiguration
+│          │    ├[+] RetentionConfiguration: RetentionConfiguration
+│          │    └[+] VpcConfiguration: VpcConfiguration
+│          └[+]  type VpcConfiguration
+│             ├      name: VpcConfiguration
+│             └ properties
+│                └ GlueConnectionName: string
+├[~] service aws-healthlake
+│ └ resources
+│    └[~]  resource AWS::HealthLake::FHIRDatastore
+│       └ types
+│          └[~] type IdentityProviderConfiguration
+│            └ properties
+│               └ AuthorizationStrategy: (documentation changed)
+├[~] service aws-iotfleetwise
+│ └ resources
+│    ├[~]  resource AWS::IoTFleetWise::StateTemplate
+│    │  └ attributes
+│    │     └[+] Id: string
+│    └[~]  resource AWS::IoTFleetWise::Vehicle
+│       ├ properties
+│       │  └[+] StateTemplates: Array<StateTemplateAssociation>
+│       └ types
+│          ├[+]  type PeriodicStateTemplateUpdateStrategy
+│          │  ├      documentation: Vehicles associated with the state template will stream telemetry data during a specified time period.
+│          │  │      name: PeriodicStateTemplateUpdateStrategy
+│          │  └ properties
+│          │     └ StateTemplateUpdateRate: TimePeriod (required)
+│          ├[+]  type StateTemplateAssociation
+│          │  ├      documentation: The state template associated with a vehicle. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the AWS IoT FleetWise Edge and the AWS Cloud .
+│          │  │      > Access to certain AWS IoT FleetWise features is currently gated. For more information, see [AWS Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the *AWS IoT FleetWise Developer Guide* .
+│          │  │      name: StateTemplateAssociation
+│          │  └ properties
+│          │     ├ Identifier: string (required)
+│          │     └ StateTemplateUpdateStrategy: StateTemplateUpdateStrategy (required)
+│          ├[+]  type StateTemplateUpdateStrategy
+│          │  ├      documentation: The update strategy for the state template. Vehicles associated with the state template can stream telemetry data with either an `onChange` or `periodic` update strategy.
+│          │  │      > Access to certain AWS IoT FleetWise features is currently gated. For more information, see [AWS Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the *AWS IoT FleetWise Developer Guide* .
+│          │  │      name: StateTemplateUpdateStrategy
+│          │  └ properties
+│          │     ├ Periodic: PeriodicStateTemplateUpdateStrategy
+│          │     └ OnChange: json
+│          └[+]  type TimePeriod
+│             ├      documentation: The length of time between state template updates.
+│             │      name: TimePeriod
+│             └ properties
+│                ├ Unit: string (required)
+│                └ Value: number (required)
+├[~] service aws-iotsitewise
+│ └ resources
+│    └[~]  resource AWS::IoTSiteWise::Gateway
+│       ├ properties
+│       │  └[+] GatewayVersion: string (immutable)
+│       └ types
+│          ├[~] type Greengrass
+│          │ ├      - documentation: Contains details for a gateway that runs on AWS IoT Greengrass . To create a gateway that runs on AWS IoT Greengrass , you must add the IoT SiteWise connector to a Greengrass group and deploy it. Your Greengrass group must also have permissions to upload data to AWS IoT SiteWise . For more information, see [Ingesting data using a gateway](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html) in the *AWS IoT SiteWise User Guide* .
+│          │ │      + documentation: undefined
+│          │ └ properties
+│          │    └ GroupArn: (documentation changed)
+│          └[~] type GreengrassV2
+│            └ properties
+│               └[+] CoreDeviceOperatingSystem: string
+├[~] service aws-kendra
+│ └ resources
+│    └[~]  resource AWS::Kendra::DataSource
+│       └ types
+│          └[~] type S3DataSourceConfiguration
+│            └      - documentation: Provides the configuration information to connect to an Amazon S3 bucket.
+│                   > Amazon Kendra now supports an upgraded Amazon S3 connector.
+│                   > 
+│                   > You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the `S3DataSourceConfiguration` object to configure your connector.
+│                   > 
+│                   > Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector.
+│                   > 
+│                   > We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
+│                   + documentation: Provides the configuration information to connect to an Amazon S3 bucket.
+├[~] service aws-kinesisfirehose
+│ └ resources
+│    └[~]  resource AWS::KinesisFirehose::DeliveryStream
+│       ├ properties
+│       │  └[+] DirectPutSourceConfiguration: DirectPutSourceConfiguration (immutable)
+│       └ types
+│          ├[+]  type DirectPutSourceConfiguration
+│          │  ├      documentation: The structure that configures parameters such as `ThroughputHintInMBs` for a stream configured with Direct PUT as a source.
+│          │  │      name: DirectPutSourceConfiguration
+│          │  └ properties
+│          │     └ ThroughputHintInMBs: integer
+│          └[~] type IcebergDestinationConfiguration
+│            └ properties
+│               └[+] AppendOnly: boolean
+├[~] service aws-lightsail
+│ └ resources
+│    └[~]  resource AWS::Lightsail::Container
+│       ├ properties
+│       │  └ PrivateRegistryAccess: (documentation changed)
+│       └ types
+│          └[~] type PrivateRegistryAccess
+│            └      - documentation: Describes the configuration for an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry ( Amazon ECR ) private repositories.
+│                   For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the *Amazon Lightsail Developer Guide* .
+│                   + documentation: Describes the configuration for an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry ( Amazon ECR ) private repositories.
+│                   For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the *Amazon Lightsail Developer Guide* .
+├[~] service aws-mediaconnect
+│ └ resources
+│    └[~]  resource AWS::MediaConnect::Flow
+│       └ types
+│          └[~] type SourceMonitoringConfig
+│            └ properties
+│               └ ThumbnailState: - string (required)
+│                                 + string
+├[~] service aws-qbusiness
+│ └ resources
+│    └[~]  resource AWS::QBusiness::WebExperience
+│       ├ properties
+│       │  └ BrowserExtensionConfiguration: (documentation changed)
+│       └ types
+│          └[~] type BrowserExtensionConfiguration
+│            ├      - documentation: undefined
+│            │      + documentation: The container for browser extension configuration for an Amazon Q Business web experience.
+│            └ properties
+│               └ EnabledBrowserExtensions: (documentation changed)
+├[~] service aws-resiliencehub
+│ └ resources
+│    └[~]  resource AWS::ResilienceHub::App
+│       └ properties
+│          └[-] RegulatoryPolicyArn: string
+├[~] service aws-secretsmanager
+│ └ resources
+│    └[~]  resource AWS::SecretsManager::RotationSchedule
+│       ├      - documentation: Sets the rotation schedule and Lambda rotation function for a secret. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) .
+│       │      For Amazon RDS master user credentials, see [AWS::RDS::DBCluster MasterUserSecret](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbcluster-masterusersecret.html) .
+│       │      For Amazon Redshift admin user credentials, see [AWS::Redshift::Cluster](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html) .
+│       │      For the rotation function, you have two options:
+│       │      - You can create a new rotation function based on one of the [Secrets Manager rotation function templates](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_available-rotation-templates.html) by using `HostedRotationLambda` .
+│       │      - You can choose an existing rotation function by using `RotationLambdaARN` .
+│       │      For database secrets, if you define both the secret and the database or service in the AWS CloudFormation template, then you need to define the [AWS::SecretsManager::SecretTargetAttachment](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secrettargetattachment.html) resource to populate the secret with the connection details of the database or service before you attempt to configure rotation.
+│       │      For a single secret, you can only define one rotation schedule with it.
+│       │      + documentation: Configure the rotation schedule and Lambda rotation function for a secret. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) .
+│       │      For database credentials, refer to the following resources:
+│       │      - Amazon RDS master user credentials: [AWS::RDS::DBCluster MasterUserSecret](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbcluster-masterusersecret.html)
+│       │      - Amazon Redshift admin user credentials: [AWS::Redshift::Cluster](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html)
+│       │      Choose one of the following options for the rotation function:
+│       │      - Create a new rotation function using `HostedRotationLambda` based on a [Secrets Manager rotation function template](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_available-rotation-templates.html) .
+│       │      - Use an existing rotation function by specifying its ARN with `RotationLambdaARN` .
+│       │      > For database secrets defined in the same AWS CloudFormation template as the database or service:
+│       │      > 
+│       │      > - Use the [AWS::SecretsManager::SecretTargetAttachment](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-secretsmanager-secrettargetattachment.html) resource to populate the secret with connection details.
+│       │      > - Add a `DependsOn` attribute to the `RotationSchedule` resource that uses a `SecretTargetAttachment` . This ensures the rotation is configured after the secret is populated with connection details. > You can define only one rotation schedule per secret.
+│       ├ properties
+│       │  └ RotateImmediatelyOnUpdate: (documentation changed)
+│       └ types
+│          └[~] type RotationRules
+│            └      - documentation: The rotation schedule and window. We recommend you use `ScheduleExpression` to set a cron or rate expression for the schedule and `Duration` to set the length of the rotation window.
+│                   + documentation: The rotation schedule and window. We recommend you use `ScheduleExpression` to set a cron or rate expression for the schedule and `Duration` to set the length of the rotation window.
+│                   > When changing an existing rotation schedule and setting `RotateImmediatelyOnUpdate` to `false` :
+│                   > 
+│                   > - If using `AutomaticallyAfterDays` or a `ScheduleExpression` with `rate()` , the previously scheduled rotation might still occur.
+│                   > - To prevent unintended rotations, use a `ScheduleExpression` with `cron()` for granular control over rotation windows.
+├[~] service aws-ssmquicksetup
+│ └ resources
+│    └[~]  resource AWS::SSMQuickSetup::ConfigurationManager
+│       └ types
+│          └[~] type ConfigurationDefinition
+│            └ properties
+│               └ Parameters: (documentation changed)
+├[~] service aws-timestream
+│ └ resources
+│    └[~]  resource AWS::Timestream::InfluxDBInstance
+│       └ properties
+│          ├ DbInstanceType: - string (immutable)
+│          │                 + string
+│          └ DeploymentType: - string (immutable)
+│                            + string
+└[~] service aws-transfer
+  └ resources
+     ├[~]  resource AWS::Transfer::Agreement
+     │  └      - documentation: Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an AWS Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes.
+     │         The partner is identified with the `PartnerProfileId` , and the AS2 process is identified with the `LocalProfileId` .
+     │         + documentation: Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an AWS Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes.
+     │         The partner is identified with the `PartnerProfileId` , and the AS2 process is identified with the `LocalProfileId` .
+     │         > Specify *either* `BaseDirectory` or `CustomDirectories` , but not both. Specifying both causes the command to fail.
+     └[~]  resource AWS::Transfer::Server
+        └ attributes
+           ├ Arn: (documentation changed)
+           └ ServerId: (documentation changed)
