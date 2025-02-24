@@ -1,9 +1,10 @@
+/* eslint-disable @cdklabs/no-throw-default-error */
 import { Aws, Resource, Annotations } from 'aws-cdk-lib';
 import { IVpc, ISubnet, SubnetSelection, SelectedSubnets, EnableVpnGatewayOptions, VpnGateway, VpnConnectionType, CfnVPCGatewayAttachment, CfnVPNGatewayRoutePropagation, VpnConnectionOptions, VpnConnection, ClientVpnEndpointOptions, ClientVpnEndpoint, InterfaceVpcEndpointOptions, InterfaceVpcEndpoint, GatewayVpcEndpointOptions, GatewayVpcEndpoint, FlowLogOptions, FlowLog, FlowLogResourceType, SubnetType, SubnetFilter } from 'aws-cdk-lib/aws-ec2';
 import { allRouteTableIds, flatten, subnetGroupNameFromConstructId } from './util';
 import { IDependable, Dependable, IConstruct, DependencyGroup } from 'constructs';
 import { EgressOnlyInternetGateway, InternetGateway, NatConnectivityType, NatGateway, NatGatewayOptions, Route, VPCPeeringConnection, VPCPeeringConnectionOptions, VPNGatewayV2 } from './route';
-import { ISubnetV2 } from './subnet-v2';
+import { ISubnetV2, SubnetV2, SubnetV2Options } from './subnet-v2';
 import { AccountPrincipal, Effect, PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
 import { IVPCCidrBlock } from './vpc-v2';
 
@@ -149,6 +150,11 @@ export interface IVpcV2 extends IVpc {
   readonly vpcName?: string;
 
   /**
+   * For migration
+   */
+  readonly resourceVpcId? : string;
+
+  /**
    * Add an Egress only Internet Gateway to current VPC.
    * Can only be used for ipv6 enabled VPCs.
    * For more information, see the {@link https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway-basics.html}.
@@ -193,6 +199,11 @@ export interface IVpcV2 extends IVpc {
    * For more information, see the {@link https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html}.
    */
   createPeeringConnection(id: string, options: VPCPeeringConnectionOptions): VPCPeeringConnection;
+
+  /**
+   * Method to add subnets
+   */
+  addSubnets(id: string, options: SubnetV2Options): SubnetV2;
 }
 
 /**
@@ -283,6 +294,11 @@ export abstract class VpcV2Base extends Resource implements IVpcV2 {
    * is complete under IPAM pool
    */
   public abstract readonly ipv4IpamProvisionedCidrs?: string[];
+
+  /**
+   * test
+   */
+  public abstract readonly resourceVpcId?: string;
 
   /**
    * If this is set to true, don't error out on trying to select subnets
@@ -619,6 +635,17 @@ export abstract class VpcV2Base extends Resource implements IVpcV2 {
    */
   public get egressOnlyInternetGatewayId(): string | undefined {
     return this._egressOnlyInternetGatewayId;
+  }
+
+  /**
+   * Method to add subnets
+   */
+  public addSubnets(id: string, props: SubnetV2Options): SubnetV2 {
+    return new SubnetV2(this, id, {
+      vpc: this,
+      vpcId: this.resourceVpcId,
+      ...props,
+    });
   }
 
   /**

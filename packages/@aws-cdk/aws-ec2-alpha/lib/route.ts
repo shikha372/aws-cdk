@@ -279,6 +279,11 @@ export class InternetGateway extends Resource implements IRouteTarget {
    */
   public readonly resource: CfnInternetGateway;
 
+  /**
+   * for migration
+   */
+  public readonly resourceId?: string;
+
   constructor(scope: Construct, id: string, props: InternetGatewayProps) {
     super(scope, id);
     // Enhanced CDK Analytics Telemetry
@@ -291,6 +296,7 @@ export class InternetGateway extends Resource implements IRouteTarget {
 
     this.routerTargetId = this.resource.attrInternetGatewayId;
     this.vpcId = props.vpc.vpcId;
+    this.resourceId = this.resource.ref;
 
     if (props.internetGatewayName) {
       Tags.of(this).add(NAME_TAG, props.internetGatewayName);
@@ -787,6 +793,16 @@ export interface RouteTableProps {
  */
 export class RouteTable extends Resource implements IRouteTable {
   /**
+   * Import existing route table for migration
+   */
+  public static fromRouteTableId(scope: Construct, id: string, routeTableId: string): IRouteTable {
+    class Import extends Resource implements IRouteTable {
+      public readonly routeTableId = routeTableId;
+    }
+    return new Import(scope, id);
+  }
+
+  /**
    * The ID of the route table.
    */
   public readonly routeTableId: string;
@@ -802,13 +818,14 @@ export class RouteTable extends Resource implements IRouteTable {
     addConstructMetadata(this, props);
 
     this.resource = new CfnRouteTable(this, 'RouteTable', {
-      vpcId: props.vpc.vpcId,
+      vpcId: props.vpc.resourceVpcId ?? props.vpc.vpcId,
     });
     if (props.routeTableName) {
       Tags.of(this).add(NAME_TAG, props.routeTableName);
     }
     this.node.defaultChild = this.resource;
 
+    // if (FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION)) { };
     this.routeTableId = this.resource.attrRouteTableId;
   }
 

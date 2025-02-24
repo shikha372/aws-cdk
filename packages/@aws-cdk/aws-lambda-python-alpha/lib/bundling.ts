@@ -84,7 +84,7 @@ export class Bundling implements CdkBundlingOptions {
       poetryIncludeHashes,
       poetryWithoutUrls,
       commandHooks,
-      assetExcludes = [],
+      assetExcludes = []
     } = props;
 
     const outputPath = path.posix.join(AssetStaging.BUNDLING_OUTPUT_DIR, outputPathSuffix);

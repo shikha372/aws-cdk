@@ -1,3 +1,4 @@
+/* eslint-disable @cdklabs/no-throw-default-error */
 import { Resource, Names, Lazy, Tags } from 'aws-cdk-lib';
 import { CfnSubnet, CfnSubnetRouteTableAssociation, INetworkAcl, IRouteTable, ISubnet, NetworkAcl, SubnetNetworkAclAssociation, SubnetType } from 'aws-cdk-lib/aws-ec2';
 import { Construct, DependencyGroup, IDependable } from 'constructs';
@@ -38,13 +39,9 @@ const NAME_TAG: string = 'Name';
 const VPCNAME_TAG: string = 'VpcName';
 
 /**
- * Properties to define subnet for VPC.
+ * Options interface
  */
-export interface SubnetV2Props {
-/**
- * VPC Prop
- */
-  readonly vpc: IVpcV2;
+export interface SubnetV2Options {
 
   /**
    * ipv4 cidr to assign to this subnet.
@@ -96,6 +93,22 @@ export interface SubnetV2Props {
    */
   readonly assignIpv6AddressOnCreation?: boolean;
 
+}
+
+/**
+ * Properties to define subnet for VPC.
+ */
+export interface SubnetV2Props extends SubnetV2Options {
+/**
+ * VPC Prop
+ */
+  readonly vpc: IVpcV2;
+
+  /**
+   * VPC Resource ID to migrate
+   * @default - none
+   */
+  readonly vpcId?: string;
 }
 
 /**
@@ -275,13 +288,14 @@ export class SubnetV2 extends Resource implements ISubnetV2 {
     if (props.assignIpv6AddressOnCreation && !props.ipv6CidrBlock) {
       throw new Error('IPv6 CIDR block is required when assigning IPv6 address on creation');
     }
-
+    const vpcId = props.vpcId ? props.vpcId : props.vpc.vpcId;
     const subnet = new CfnSubnet(this, 'Subnet', {
-      vpcId: props.vpc.vpcId,
+      vpcId: vpcId,
       cidrBlock: ipv4CidrBlock,
       ipv6CidrBlock: ipv6CidrBlock,
       availabilityZone: props.availabilityZone,
-      assignIpv6AddressOnCreation: props.assignIpv6AddressOnCreation ?? false,
+      assignIpv6AddressOnCreation: props.assignIpv6AddressOnCreation,
+      mapPublicIpOnLaunch: false,
     });
 
     this.node.defaultChild = subnet;

@@ -1,5 +1,6 @@
+/* eslint-disable @cdklabs/no-throw-default-error */
 import { CfnVPC, CfnVPCCidrBlock, DefaultInstanceTenancy, ISubnet, SubnetType } from 'aws-cdk-lib/aws-ec2';
-import { Arn, CfnResource, Lazy, Names, Resource, Tags } from 'aws-cdk-lib/core';
+import { Arn, CfnResource, FeatureFlags, Lazy, Names, Resource, Tags } from 'aws-cdk-lib/core';
 import { Construct, DependencyGroup, IDependable } from 'constructs';
 import { IpamOptions, IIpamPool } from './ipam';
 import { IVpcV2, VpcV2Base } from './vpc-v2-base';
@@ -316,6 +317,7 @@ export class VpcV2 extends VpcV2Base {
      */
     class ImportedVpcV2 extends VpcV2Base {
       public readonly vpcId: string;
+      public readonly resourceVpcId?: string | undefined;
       public readonly vpcArn: string;
       public readonly publicSubnets: ISubnetV2[] = [];
       public readonly privateSubnets: ISubnetV2[] = [];
@@ -491,6 +493,8 @@ export class VpcV2 extends VpcV2Base {
 
   public readonly ipv4CidrBlock: string = '';
 
+  public readonly resourceVpcId?: string ;
+
   constructor(scope: Construct, id: string, props: VpcV2Props = {}) {
     super(scope, id, {
       physicalName: props.vpcName ?? Lazy.string({
@@ -521,7 +525,9 @@ export class VpcV2 extends VpcV2Base {
       this.ipv4CidrBlock = vpcOptions.ipv4CidrBlock;
     }
     this.ipv6CidrBlocks = this.resource.attrIpv6CidrBlocks;
+    // if (FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION)) { };
     this.vpcId = this.resource.attrVpcId;
+    this.resourceVpcId = this.resource.ref;
     this.vpcArn = Arn.format({
       service: 'ec2',
       resource: 'vpc',
