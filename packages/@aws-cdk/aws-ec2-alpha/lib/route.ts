@@ -1,10 +1,11 @@
 import { CfnEIP, CfnEgressOnlyInternetGateway, CfnInternetGateway, CfnNatGateway, CfnVPCPeeringConnection, CfnRoute, CfnRouteTable, CfnVPCGatewayAttachment, CfnVPNGateway, CfnVPNGatewayRoutePropagation, GatewayVpcEndpoint, IRouteTable, IVpcEndpoint, RouterType } from 'aws-cdk-lib/aws-ec2';
 import { Construct, IDependable } from 'constructs';
-import { Annotations, Duration, IResource, Resource, Tags } from 'aws-cdk-lib/core';
+import { Annotations, Duration, FeatureFlags, IResource, Resource, Tags } from 'aws-cdk-lib/core';
 import { IVpcV2, VPNGatewayV2Options } from './vpc-v2-base';
 import { NetworkUtils, allRouteTableIds, CidrBlock } from './util';
 import { ISubnetV2 } from './subnet-v2';
 import { addConstructMetadata, MethodMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
+import { USE_RESOURCEID_FOR_VPCV2_MIGRATION } from 'aws-cdk-lib/cx-api';
 
 /**
  * Indicates whether the NAT gateway supports public or private connectivity.
@@ -250,7 +251,8 @@ export class EgressOnlyInternetGateway extends Resource implements IRouteTarget 
     });
     this.node.defaultChild = this.resource;
 
-    this.routerTargetId = this.resource.attrId;
+    const useResourceId = FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION);
+    this.routerTargetId = !useResourceId ? this.resource.ref : this.resource.attrId;
   }
 }
 
@@ -294,7 +296,8 @@ export class InternetGateway extends Resource implements IRouteTarget {
     this.resource = new CfnInternetGateway(this, 'IGW', {});
     this.node.defaultChild = this.resource;
 
-    this.routerTargetId = this.resource.attrInternetGatewayId;
+    const useResourceId = FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION);
+    this.routerTargetId = !useResourceId ? this.resource.ref : this.resource.attrInternetGatewayId;
     this.vpcId = props.vpc.vpcId;
     this.resourceId = this.resource.ref;
 
@@ -359,7 +362,8 @@ export class VPNGatewayV2 extends Resource implements IRouteTarget {
     });
     this.node.defaultChild = this.resource;
 
-    this.routerTargetId = this.resource.attrVpnGatewayId;
+    const useResourceId = FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION);
+    this.routerTargetId = !useResourceId ? this.resource.ref : this.resource.attrVpnGatewayId;
 
     this.vpcId = props.vpc.vpcId;
     this._attachment = new CfnVPCGatewayAttachment(this, 'VPCVPNGW', {
@@ -474,7 +478,8 @@ export class NatGateway extends Resource implements IRouteTarget {
     });
     this.natGatewayId = this.resource.attrNatGatewayId;
 
-    this.routerTargetId = this.resource.attrNatGatewayId;
+    const useResourceId = FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION);
+    this.routerTargetId = !useResourceId ? this.resource.ref : this.resource.attrNatGatewayId;
     this.node.defaultChild = this.resource;
     this.node.addDependency(props.subnet.internetConnectivityEstablished);
   }
@@ -533,7 +538,8 @@ export class VPCPeeringConnection extends Resource implements IRouteTarget {
       peerRoleArn: isCrossAccount ? props.peerRoleArn : undefined,
     });
 
-    this.routerTargetId = this.resource.attrId;
+    const useResourceId = FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION);
+    this.routerTargetId = !useResourceId ? this.resource.ref : this.resource.attrId;
     this.node.defaultChild = this.resource;
   }
 
@@ -826,7 +832,8 @@ export class RouteTable extends Resource implements IRouteTable {
     this.node.defaultChild = this.resource;
 
     // if (FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION)) { };
-    this.routeTableId = this.resource.attrRouteTableId;
+    const useResourceId = FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION);
+    this.routeTableId = !useResourceId ? this.resource.ref : this.resource.attrRouteTableId;
   }
 
   /**

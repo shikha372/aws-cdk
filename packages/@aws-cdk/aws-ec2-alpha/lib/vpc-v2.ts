@@ -7,6 +7,7 @@ import { IVpcV2, VpcV2Base } from './vpc-v2-base';
 import { ISubnetV2, SubnetV2, SubnetV2Attributes } from './subnet-v2';
 import { region_info } from 'aws-cdk-lib';
 import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
+import { USE_RESOURCEID_FOR_VPCV2_MIGRATION } from 'aws-cdk-lib/cx-api';
 
 /**
  * Additional props needed for secondary Address
@@ -525,8 +526,9 @@ export class VpcV2 extends VpcV2Base {
       this.ipv4CidrBlock = vpcOptions.ipv4CidrBlock;
     }
     this.ipv6CidrBlocks = this.resource.attrIpv6CidrBlocks;
-    // if (FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION)) { };
-    this.vpcId = this.resource.attrVpcId;
+    const useResourceId = FeatureFlags.of(this).isEnabled(USE_RESOURCEID_FOR_VPCV2_MIGRATION);
+    this.vpcId = !useResourceId ? this.resource.ref : this.resource.attrVpcId;
+
     this.resourceVpcId = this.resource.ref;
     this.vpcArn = Arn.format({
       service: 'ec2',

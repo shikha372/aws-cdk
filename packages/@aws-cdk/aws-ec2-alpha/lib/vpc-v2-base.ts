@@ -184,7 +184,7 @@ export interface IVpcV2 extends IVpc {
    *
    * @default ConnectivityType.Public
    */
-  addNatGateway(options: NatGatewayOptions): NatGateway;
+  addNatGateway(id: string, options: NatGatewayOptions): NatGateway;
 
   /**
    * Adds a new role to acceptor VPC account
@@ -556,11 +556,11 @@ export abstract class VpcV2Base extends Resource implements IVpcV2 {
    * Adds a new NAT Gateway to the given subnet of this VPC
    * of given subnets.
    */
-  public addNatGateway(options: NatGatewayOptions): NatGateway {
+  public addNatGateway(id: string, options: NatGatewayOptions): NatGateway {
     if (options.connectivityType === NatConnectivityType.PUBLIC && !this._internetGatewayId) {
       throw new Error('Cannot add a Public NAT Gateway without an Internet Gateway enabled on VPC');
     }
-    return new NatGateway(this, 'NATGateway', {
+    return new NatGateway(this, id, {
       vpc: this,
       ...options,
     });
