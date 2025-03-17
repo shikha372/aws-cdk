@@ -1409,6 +1409,8 @@ export const FLAGS: Record<string, FlagInfo> = {
 =======
 =======
 >>>>>>> d580853c54 (fix(s3): cannot deploy multiple replication source buckets (under feature flag) (#33360))
+
+  //////////////////////////////////////////////////////////////////////
   [LAMBDA_CREATE_NEW_POLICIES_WITH_ADDTOROLEPOLICY]: {
     type: FlagType.BugFix,
     summary: 'When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement',
@@ -1421,6 +1423,8 @@ export const FLAGS: Record<string, FlagInfo> = {
     recommendedValue: true,
 >>>>>>> d946eb729a (fix(lambda): updating addToRolePolicy to avoid circular dependency potential (under feature flag) (#33291))
   },
+
+  //////////////////////////////////////////////////////////////////////
   [SET_UNIQUE_REPLICATION_ROLE_NAME]: {
     type: FlagType.BugFix,
     summary: 'When enabled, CDK will automatically generate a unique role name that is used for s3 object replication.',
@@ -1432,6 +1436,7 @@ export const FLAGS: Record<string, FlagInfo> = {
     introducedIn: { v2: '2.182.0' },
     recommendedValue: true,
   },
+
   //////////////////////////////////////////////////////////////////////
   [PIPELINE_REDUCE_STAGE_ROLE_TRUST_SCOPE]: {
     type: FlagType.ApiDefault,
