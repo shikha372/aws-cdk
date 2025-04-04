@@ -127,7 +127,11 @@ export const ENABLE_ADDITIONAL_METADATA_COLLECTION = '@aws-cdk/core:enableAdditi
 export const USE_RESOURCEID_FOR_VPCV2_MIGRATION = '@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration';
 =======
 export const LAMBDA_CREATE_NEW_POLICIES_WITH_ADDTOROLEPOLICY = '@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy';
+<<<<<<< HEAD
 >>>>>>> d946eb729a (fix(lambda): updating addToRolePolicy to avoid circular dependency potential (under feature flag) (#33291))
+=======
+export const SET_UNIQUE_REPLICATION_ROLE_NAME = '@aws-cdk/aws-s3:setUniqueReplicationRoleName';
+>>>>>>> d580853c54 (fix(s3): cannot deploy multiple replication source buckets (under feature flag) (#33360))
 
 export const FLAGS: Record<string, FlagInfo> = {
   //////////////////////////////////////////////////////////////////////
@@ -1391,6 +1395,7 @@ export const FLAGS: Record<string, FlagInfo> = {
     introducedIn: { v2: '2.178.0' },
     recommendedValue: true,
   },
+<<<<<<< HEAD
 
   //////////////////////////////////////////////////////////////////////
 <<<<<<< HEAD
@@ -1407,6 +1412,8 @@ export const FLAGS: Record<string, FlagInfo> = {
     recommendedValue: true,
     compatibilityWithOldBehaviorMd: 'Disable the feature flag to use the old resource ID.',
 =======
+=======
+>>>>>>> d580853c54 (fix(s3): cannot deploy multiple replication source buckets (under feature flag) (#33360))
   [LAMBDA_CREATE_NEW_POLICIES_WITH_ADDTOROLEPOLICY]: {
     type: FlagType.BugFix,
     summary: 'When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement',
@@ -1418,6 +1425,17 @@ export const FLAGS: Record<string, FlagInfo> = {
     introducedIn: { v2: '2.180.0' },
     recommendedValue: true,
 >>>>>>> d946eb729a (fix(lambda): updating addToRolePolicy to avoid circular dependency potential (under feature flag) (#33291))
+  },
+  [SET_UNIQUE_REPLICATION_ROLE_NAME]: {
+    type: FlagType.BugFix,
+    summary: 'When enabled, CDK will automatically generate a unique role name that is used for s3 object replication.',
+    detailsMd: `
+      When performing cross-account S3 replication, we need to explicitly specify a role name for the replication execution role.
+      When this feature flag is enabled, a unique role name is specified only when performing cross-account replication.
+      When disabled, 'CDKReplicationRole' is always specified.
+    `,
+    introducedIn: { v2: 'V2NEXT' },
+    recommendedValue: true,
   },
 };
 
