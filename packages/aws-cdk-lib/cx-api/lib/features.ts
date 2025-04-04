@@ -123,15 +123,10 @@ export const Disable_ECS_IMDS_Blocking = '@aws-cdk/aws-ecs:disableEcsImdsBlockin
 export const ALB_DUALSTACK_WITHOUT_PUBLIC_IPV4_SECURITY_GROUP_RULES_DEFAULT = '@aws-cdk/aws-elasticloadbalancingV2:albDualstackWithoutPublicIpv4SecurityGroupRulesDefault';
 export const IAM_OIDC_REJECT_UNAUTHORIZED_CONNECTIONS = '@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections';
 export const ENABLE_ADDITIONAL_METADATA_COLLECTION = '@aws-cdk/core:enableAdditionalMetadataCollection';
-<<<<<<< HEAD
 export const USE_RESOURCEID_FOR_VPCV2_MIGRATION = '@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration';
-=======
 export const LAMBDA_CREATE_NEW_POLICIES_WITH_ADDTOROLEPOLICY = '@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy';
-<<<<<<< HEAD
->>>>>>> d946eb729a (fix(lambda): updating addToRolePolicy to avoid circular dependency potential (under feature flag) (#33291))
-=======
 export const SET_UNIQUE_REPLICATION_ROLE_NAME = '@aws-cdk/aws-s3:setUniqueReplicationRoleName';
->>>>>>> d580853c54 (fix(s3): cannot deploy multiple replication source buckets (under feature flag) (#33360))
+export const PIPELINE_REDUCE_STAGE_ROLE_TRUST_SCOPE = '@aws-cdk/pipelines:reduceStageRoleTrustScope';
 
 export const FLAGS: Record<string, FlagInfo> = {
   //////////////////////////////////////////////////////////////////////
@@ -1437,6 +1432,20 @@ export const FLAGS: Record<string, FlagInfo> = {
     introducedIn: { v2: '2.182.0' },
     recommendedValue: true,
   },
+  //////////////////////////////////////////////////////////////////////
+  [PIPELINE_REDUCE_STAGE_ROLE_TRUST_SCOPE]: {
+    type: FlagType.ApiDefault,
+    summary: 'Remove the root account principal from Stage addActions trust policy',
+    detailsMd: `
+      When this feature flag is enabled, the root account principal will not be added to the trust policy of stage role.
+      When this feature flag is disabled, it will keep the root account principal in the trust policy.
+    `,
+    introducedIn: { v2: 'V2NEXT' },
+    defaults: { v2: true },
+    recommendedValue: true,
+    compatibilityWithOldBehaviorMd: 'Disable the feature flag to add the root account principal back',
+  },
+
 };
 
 const CURRENT_MV = 'v2';
