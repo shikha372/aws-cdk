@@ -123,7 +123,11 @@ export const Disable_ECS_IMDS_Blocking = '@aws-cdk/aws-ecs:disableEcsImdsBlockin
 export const ALB_DUALSTACK_WITHOUT_PUBLIC_IPV4_SECURITY_GROUP_RULES_DEFAULT = '@aws-cdk/aws-elasticloadbalancingV2:albDualstackWithoutPublicIpv4SecurityGroupRulesDefault';
 export const IAM_OIDC_REJECT_UNAUTHORIZED_CONNECTIONS = '@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections';
 export const ENABLE_ADDITIONAL_METADATA_COLLECTION = '@aws-cdk/core:enableAdditionalMetadataCollection';
+<<<<<<< HEAD
 export const USE_RESOURCEID_FOR_VPCV2_MIGRATION = '@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration';
+=======
+export const LAMBDA_CREATE_NEW_POLICIES_WITH_ADDTOROLEPOLICY = '@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy';
+>>>>>>> d946eb729a (fix(lambda): updating addToRolePolicy to avoid circular dependency potential (under feature flag) (#33291))
 
 export const FLAGS: Record<string, FlagInfo> = {
   //////////////////////////////////////////////////////////////////////
@@ -1389,6 +1393,7 @@ export const FLAGS: Record<string, FlagInfo> = {
   },
 
   //////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
   [USE_RESOURCEID_FOR_VPCV2_MIGRATION]: {
     type: FlagType.BugFix,
     summary: 'When enabled, the default behaviour of VPC migration will use the correct resource ID',
@@ -1401,6 +1406,18 @@ export const FLAGS: Record<string, FlagInfo> = {
     introducedIn: { v2: 'V2NEXT' },
     recommendedValue: true,
     compatibilityWithOldBehaviorMd: 'Disable the feature flag to use the old resource ID.',
+=======
+  [LAMBDA_CREATE_NEW_POLICIES_WITH_ADDTOROLEPOLICY]: {
+    type: FlagType.BugFix,
+    summary: 'When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement',
+    detailsMd: `
+      When this feature flag is enabled, Lambda will create new inline policies with AddToRolePolicy. 
+      The purpose of this is to prevent lambda from creating a dependency on the Default Policy Statement.
+      This solves an issue where a circular dependency could occur if adding lambda to something like a Cognito Trigger, then adding the User Pool to the lambda execution role permissions.
+    `,
+    introducedIn: { v2: 'V2NEXT' },
+    recommendedValue: true,
+>>>>>>> d946eb729a (fix(lambda): updating addToRolePolicy to avoid circular dependency potential (under feature flag) (#33291))
   },
 };
 
