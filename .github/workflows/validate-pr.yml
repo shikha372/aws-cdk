@@ -1,0 +1,42 @@
+name: Validate PR
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  validate-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_SHA: ${{ github.event.pull_request.head.sha }}
+      REPO_ROOT: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build and test PR linter
+        run: cd tools/@aws-cdk/prlint && yarn build+test
+      - name: Run PR linter
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+          REPO_ROOT: ${{ github.workspace }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { execSync } = require('child_process');
+            execSync('node tools/@aws-cdk/prlint/index.js', {
+              env: {
+                ...process.env,
+                GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+                PR_NUMBER: process.env.PR_NUMBER,
+                PR_SHA: process.env.PR_SHA,
+                REPO_ROOT: process.env.REPO_ROOT
+              },
+              stdio: 'inherit'
+            });
