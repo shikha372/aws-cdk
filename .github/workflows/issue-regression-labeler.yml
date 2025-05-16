@@ -17,7 +17,7 @@ jobs:
         TEMPLATE_BODY: ${{ github.event.issue.body }}
       with:
         script: |
-          const regressionPattern = /\[x\] Select this option if this issue appears to be a regression\./i;
+          const regressionPattern = /\[x\] Select this option if this issue appears to be a regression\.\.\./i;
           const template = `${process.env.TEMPLATE_BODY}`
           const match = regressionPattern.test(template);
           core.setOutput('is_regression', match);
