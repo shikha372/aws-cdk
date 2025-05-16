@@ -39,6 +39,11 @@ class VpcEndpointStack extends cdk.Stack {
       // who can access the endpoint via the '.connections' object.
       // open: false
     });
+    
+    // Add an interface endpoint for DynamoDB Streams
+    vpc.addInterfaceEndpoint('DynamoDbStreamsEndpoint', {
+      service: ec2.InterfaceVpcEndpointAwsService.DYNAMODB_STREAMS,
+    });
     /// !hide
   }
 }
