@@ -924,5 +924,24 @@ describe('vpc endpoint', () => {
         VpcEndpointType: 'Interface',
       });
     });
+    
+    test('test vpc interface endpoint for dynamodb streams', () => {
+      // GIVEN
+      const stack = new Stack(undefined, 'TestStack', { env: { account: '123456789012', region: 'us-west-2' } });
+      const vpc = new Vpc(stack, 'VPC');
+
+      // WHEN
+      vpc.addInterfaceEndpoint('DynamoDB Streams Endpoint', {
+        service: InterfaceVpcEndpointAwsService.DYNAMODB_STREAMS,
+      });
+
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::EC2::VPCEndpoint', {
+        ServiceName: 'com.amazonaws.us-west-2.dynamodb-streams',
+        VpcId: stack.resolve(vpc.vpcId),
+        PrivateDnsEnabled: true,
+        VpcEndpointType: 'Interface',
+      });
+    });
   });
 });
